@@ -56,4 +56,19 @@ public class LoginController {
             throw new RuntimeException(e);
         }
     }
+
+    public void handleRedirect(ActionEvent actionEvent) {
+        try {
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("views/welcome-view.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) emailField.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Notenmanager");
+            stage.show();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

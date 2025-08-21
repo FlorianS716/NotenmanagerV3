@@ -1,18 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="513.0" prefWidth="751.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.wifi.notenmanager.controller.NotesController">
+<StackPane styleClass="root" stylesheets="@notenmanagerTheme.css"
+           xmlns="http://javafx.com/javafx/17.0.12"
+           xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="at.wifi.notenmanager.controller.NotesController">
 
-    <Label layoutX="14.0" layoutY="14.0" prefHeight="53.0" prefWidth="378.0" style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Meine Notizen" />
-    <ListView fx:id="notesListView" layoutX="13.0" layoutY="212.0" prefHeight="289.0" prefWidth="727.0" />
-    <Label layoutX="13.0" layoutY="99.0" text="Notiz bearbeiten oder hinzufügen:" />
-    <TextArea fx:id="noteTextArea" layoutX="14.0" layoutY="116.0" prefRowCount="4" wrapText="true" />
+    <VBox alignment="CENTER" spacing="24" styleClass="card" maxWidth="800">
 
-    <HBox alignment="CENTER_RIGHT" layoutX="500.0" layoutY="176.0" spacing="10">
-        <Button fx:id="saveButton" onAction="#handleSaveNote" text="Speichern" />
-        <Button fx:id="deleteButton" onAction="#handleDeleteNote" text="Löschen" />
-    </HBox>
+        <!-- Titel -->
+        <Label styleClass="heading" text="Meine Notizen"/>
 
-</AnchorPane>
+        <!-- Notizbereich -->
+        <Label styleClass="subheading" text="Notiz bearbeiten oder hinzufügen:"/>
+        <TextArea fx:id="noteTextArea" prefRowCount="4" wrapText="true" styleClass="text-field"/>
+
+        <!-- Buttons -->
+        <HBox alignment="CENTER_RIGHT" spacing="12">
+            <Pane HBox.hgrow="ALWAYS"/>
+            <Button fx:id="saveButton" onAction="#handleSaveNote" text="Speichern" styleClass="button login-button"/>
+            <Button fx:id="deleteButton" onAction="#handleDeleteNote" text="Löschen" styleClass="button logout-button"/>
+        </HBox>
+
+        <!-- Notizenliste -->
+        <Label styleClass="subheading" text="Gespeicherte Notizen"/>
+        <ListView fx:id="notesListView" prefHeight="300" styleClass="list-view"/>
+
+        <!-- Info -->
+        <TitledPane expanded="false" text="🛈 Was macht dieser Bereich?" maxWidth="700">
+            <VBox spacing="6" styleClass="card">
+                <padding>
+                    <Insets top="12" right="12" bottom="12" left="12"/>
+                </padding>
+                <Label text="In diesem Bereich können Sie beliebige Notizen erfassen..." wrapText="true"/>
+                <Label text="Die Daten werden lokal gespeichert und sind nur für Sie sichtbar." wrapText="true"/>
+            </VBox>
+        </TitledPane>
+
+    </VBox>
+</StackPane>

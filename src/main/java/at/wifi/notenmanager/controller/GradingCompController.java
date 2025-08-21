@@ -54,7 +54,7 @@ public class GradingCompController {
                 slider.setShowTickLabels(true);
                 slider.setShowTickMarks(true);
                 slider.setSnapToTicks(true);
-                slider.setPrefWidth(180);
+                slider.setPrefWidth(140);
                 slider.valueProperty().addListener((obs, oldVal, newVal) -> {
                     GradingComponent component = getTableView().getItems().get(getIndex());
                     component.setWeight((float) (newVal.doubleValue() / 100));
@@ -149,7 +149,7 @@ public class GradingCompController {
                 .mapToDouble(GradingComponent::getWeight)
                 .sum();
 
-        if (Math.abs(sum - 1.0) > 0.0001) {
+        if (Math.abs(sum - 1.0) > 0.1) {
             setStatus("Die Gewichtung muss exakt 100 % ergeben.");
             return;
         }

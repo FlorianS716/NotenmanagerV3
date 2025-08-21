@@ -1,51 +1,104 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="554.0" prefWidth="804.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.wifi.notenmanager.controller.GradesController">
+<StackPane styleClass="root"
+           stylesheets="@notenmanagerTheme.css"
+           xmlns="http://javafx.com/javafx/17.0.12"
+           xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="at.wifi.notenmanager.controller.GradesController">
 
-    <Label layoutX="320.0" layoutY="14.0" prefHeight="25.0" prefWidth="180.0" style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Notenverwaltung" />
+    <!-- zentrierter Card-Container -->
+    <VBox alignment="CENTER" spacing="24" styleClass="card" maxWidth="950">
 
-    <HBox alignment="CENTER_LEFT" layoutX="4.0" layoutY="61.0" spacing="12">
-        <Label text="Schüler:" />
-        <ComboBox fx:id="studentComboBox" prefWidth="200" promptText="Schüler wählen" />
+        <!-- Überschrift -->
+        <Label text="Notenverwaltung" styleClass="heading"/>
 
-        <Label text="Fach:" />
-        <ComboBox fx:id="subjectComboBox" prefWidth="200" promptText="Fach wählen" />
+        <!-- Filterzeile -->
+        <GridPane hgap="12" vgap="10">
+            <columnConstraints>
+                <ColumnConstraints halignment="RIGHT" minWidth="100" />
+                <ColumnConstraints hgrow="ALWAYS" />
+                <ColumnConstraints halignment="RIGHT" minWidth="100" />
+                <ColumnConstraints hgrow="ALWAYS" />
+                <ColumnConstraints halignment="RIGHT" minWidth="100" />
+                <ColumnConstraints hgrow="ALWAYS" />
+            </columnConstraints>
 
-        <Label text="Komponente:" />
-        <ComboBox fx:id="componentComboBox" prefWidth="180" promptText="z.B. Diktat" />
-    </HBox>
+            <Label text="Schüler:" styleClass="subheading" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+            <ComboBox fx:id="studentComboBox" promptText="Schüler wählen" styleClass="combo-box"
+                      prefWidth="200" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
 
-    <HBox alignment="CENTER_LEFT" layoutX="14.0" layoutY="103.0" spacing="12">
-        <Label text="Note (1–5):" />
-        <Spinner fx:id="noteSpinner" prefWidth="80" />
+            <Label text="Fach:" styleClass="subheading" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+            <ComboBox fx:id="subjectComboBox" promptText="Fach wählen" styleClass="combo-box"
+                      prefWidth="200" GridPane.columnIndex="3" GridPane.rowIndex="0"/>
 
-        <Label text="Datum:" />
-        <DatePicker fx:id="gradeDatePicker" />
+            <Label text="Komponente:" styleClass="subheading" GridPane.columnIndex="4" GridPane.rowIndex="0"/>
+            <ComboBox fx:id="componentComboBox" promptText="z.B. Diktat" styleClass="combo-box"
+                      prefWidth="180" GridPane.columnIndex="5" GridPane.rowIndex="0"/>
+        </GridPane>
 
-        <Pane HBox.hgrow="ALWAYS" />
-        <Button defaultButton="true" onAction="#handleSave" text="Speichern" />
-        <Button onAction="#handleDelete" text="Löschen" />
-    </HBox>
+        <!-- Noteingabe -->
+        <GridPane hgap="12" vgap="10">
+            <columnConstraints>
+                <ColumnConstraints halignment="RIGHT" minWidth="100" />
+                <ColumnConstraints hgrow="NEVER" />
+                <ColumnConstraints halignment="RIGHT" minWidth="100" />
+                <ColumnConstraints hgrow="NEVER" />
+                <ColumnConstraints halignment="RIGHT" minWidth="100" />
+                <ColumnConstraints hgrow="NEVER" />
+                <ColumnConstraints hgrow="ALWAYS" />
+            </columnConstraints>
 
-    <HBox alignment="CENTER_LEFT" layoutX="130.0" layoutY="513.0" prefHeight="27.0" prefWidth="820.0" spacing="12">
-        <Label fx:id="statusLabel" />
-        <Pane HBox.hgrow="ALWAYS" />
-        <Label fx:id="avgLabel" style="-fx-text-fill: #333;" />
-    </HBox>
+            <Label text="Note (1–5):" styleClass="subheading" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+            <Spinner fx:id="noteSpinner" prefWidth="100" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
 
-    <Label layoutX="21.0" layoutY="518.0" style="-fx-font-weight: bold;" text="Vergebene Noten" />
-    <TableView fx:id="gradeTable" layoutX="14.0" layoutY="134.0" prefHeight="365.0" prefWidth="563.0">
-        <columns>
-            <TableColumn fx:id="componentCol" prefWidth="180" text="Komponente" />
-            <TableColumn fx:id="dateCol" prefWidth="160" text="Datum" />
-            <TableColumn fx:id="noteCol" prefWidth="100" text="Note" />
-        </columns>
-        <placeholder>
-            <Label text="Noch keine Noten eingetragen." />
-        </placeholder>
-    </TableView>
+            <Label text="Datum:" styleClass="subheading" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+            <DatePicker fx:id="gradeDatePicker" GridPane.columnIndex="3" GridPane.rowIndex="0"/>
 
-</AnchorPane>
+            <Button text="Speichern" onAction="#handleSave" styleClass="button login-button"
+                    GridPane.columnIndex="4" GridPane.rowIndex="0"/>
+            <Button text="Löschen" onAction="#handleDelete" styleClass="button logout-button"
+                    GridPane.columnIndex="5" GridPane.rowIndex="0"/>
+        </GridPane>
+
+        <!-- Tabelle -->
+        <Label text="Vergebene Noten" styleClass="subheading"/>
+        <TableView fx:id="gradeTable" prefHeight="300" styleClass="table-view">
+            <columns>
+                <TableColumn fx:id="componentCol" text="Komponente" prefWidth="180"/>
+                <TableColumn fx:id="dateCol" text="Datum" prefWidth="160"/>
+                <TableColumn fx:id="noteCol" text="Note" prefWidth="535"/>
+            </columns>
+            <placeholder>
+                <Label text="Noch keine Noten eingetragen."/>
+            </placeholder>
+        </TableView>
+
+        <!-- Info -->
+        <TitledPane text="🛈 Was macht dieser Bereich?" expanded="false" maxWidth="900">
+            <VBox spacing="6" styleClass="card">
+                <padding><Insets top="12" bottom="12" left="12" right="12"/></padding>
+                <Label text="In diesem Bereich können Sie Ihren Schülern pro Fach und Komponente Noten zuweisen."
+                       wrapText="true" style="-fx-font-weight: bold;" />
+                <Label text="• Wählen Sie den Schüler aus." wrapText="true"/>
+                <Label text="• Wählen Sie das Fach aus." wrapText="true"/>
+                <Label text="• Wählen Sie die zu bewertende Komponente." wrapText="true"/>
+                <Label text="• Geben Sie die Note ein." wrapText="true"/>
+                <Label text="• Wählen Sie das Datum." wrapText="true"/>
+                <Label text="• Speichern Sie den neuen Eintrag oder löschen Sie bestehende." wrapText="true"/>
+            </VBox>
+
+        </TitledPane>
+
+        <!-- Status -->
+        <HBox alignment="CENTER_LEFT" spacing="12">
+            <Label fx:id="statusLabel" styleClass="subheading"/>
+            <Pane HBox.hgrow="ALWAYS"/>
+            <Label fx:id="avgLabel" styleClass="subheading"/>
+        </HBox>
+
+    </VBox>
+</StackPane>

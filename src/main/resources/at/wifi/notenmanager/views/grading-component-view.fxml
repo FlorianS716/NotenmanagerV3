@@ -4,48 +4,68 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="580.0" prefWidth="697.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.wifi.notenmanager.controller.GradingCompController">
+<StackPane styleClass="root" stylesheets="@notenmanagerTheme.css"
+           xmlns="http://javafx.com/javafx/17.0.12"
+           xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="at.wifi.notenmanager.controller.GradingCompController">
 
-    <Label layoutX="115.0" layoutY="59.0" style="-fx-font-size: 16px; -fx-font-weight: bold" text="Bewertungskomponenten für dieses Fach" />
+    <VBox alignment="CENTER" spacing="20" styleClass="card" maxWidth="950">
 
-    <TableView fx:id="componentTable" layoutX="14.0" layoutY="239.0" prefHeight="328.0" prefWidth="664.0">
-        <columns>
-            <TableColumn fx:id="idColumn" prefWidth="60" text="ID" />
-            <TableColumn fx:id="nameColumn" prefWidth="220" text="Komponente" />
-            <TableColumn fx:id="weightColumn" prefWidth="200" text="Gewichtung (%)" />
-        </columns>
-        <placeholder>
-            <Label text="Noch keine Bewertungskomponenten vorhanden." />
-        </placeholder>
-    </TableView>
+        <!-- Titel -->
+        <Label styleClass="heading" text="Bewertungskomponenten für dieses Fach" />
 
-    <TitledPane expanded="true" layoutX="14.0" layoutY="97.0" prefHeight="71.0" prefWidth="469.0" text="Neue Komponente hinzufügen / bearbeiten">
-        <GridPane hgap="12" vgap="10">
-            <padding>
-                <Insets bottom="10" left="10" right="10" top="10" />
-            </padding>
-            <columnConstraints>
-                <ColumnConstraints halignment="RIGHT" minWidth="140" />
-                <ColumnConstraints hgrow="ALWAYS" />
-            </columnConstraints>
+        <!-- Eingabebereich -->
+        <TitledPane expanded="true" styleClass="titled-pane" text="Neue Komponente hinzufügen / bearbeiten">
+            <content>
+                <GridPane hgap="12" vgap="10">
+                    <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
+                    <columnConstraints>
+                        <ColumnConstraints halignment="RIGHT" minWidth="140" />
+                        <ColumnConstraints hgrow="ALWAYS" />
+                    </columnConstraints>
+                    <Label text="Name:" styleClass="subheading" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                    <TextField fx:id="nameField" promptText="z. B. Lesen" styleClass="text-field"
+                               GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                </GridPane>
+            </content>
+        </TitledPane>
 
-            <Label text="Name:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-            <TextField fx:id="nameField" promptText="z.B. Lesen" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-         <rowConstraints>
-            <RowConstraints />
-         </rowConstraints>
-        </GridPane>
-    </TitledPane>
+        <!-- Buttons & Status -->
+        <HBox alignment="CENTER_LEFT" spacing="12">
+            <Label fx:id="statusLabel" styleClass="subheading"/>
+            <Button fx:id="addButton" onAction="#onAdd" text="Hinzufügen" styleClass="button login-button"/>
+            <Button fx:id="updateButton" onAction="#onUpdate" text="Aktualisieren" styleClass="button"/>
+            <Button fx:id="deleteButton" onAction="#onDelete" text="Löschen" styleClass="button logout-button"/>
+            <Button fx:id="saveButton" onAction="#onSave" text="Speichern" styleClass="button" disable="true"/>
+        </HBox>
 
-    <HBox alignment="CENTER_LEFT" layoutX="14.0" layoutY="186.0" prefHeight="25.0" prefWidth="469.0" spacing="10">
-        <Label fx:id="statusLabel" textFill="red" />
-        <Pane HBox.hgrow="ALWAYS" />
-        <Button fx:id="addButton" onAction="#onAdd" text="Hinzufügen" />
-        <Button fx:id="updateButton" onAction="#onUpdate" text="Aktualisieren" />
-        <Button fx:id="deleteButton" onAction="#onDelete" text="Löschen" />
-        <Button fx:id="saveButton" disable="true" onAction="#onSave" text="Speichern" />
-    </HBox>
+        <!-- Tabelle -->
+        <TableView fx:id="componentTable" prefHeight="340" styleClass="table-view">
+            <columns>
+                <TableColumn fx:id="idColumn" prefWidth="60" text="ID"/>
+                <TableColumn fx:id="nameColumn" prefWidth="240" text="Komponente"/>
+                <TableColumn fx:id="weightColumn" prefWidth="520" text="Gewichtung (%)"/>
+            </columns>
+            <placeholder>
+                <Label text="Noch keine Bewertungskomponenten vorhanden."/>
+            </placeholder>
+        </TableView>
 
-    <Label fx:id="totalLabel" layoutX="494.0" layoutY="198.0" prefHeight="31.0" prefWidth="186.0" style="-fx-font-weight: bold;" />
+        <!-- Gesamtsumme -->
+        <HBox alignment="CENTER_RIGHT">
+            <Label fx:id="totalLabel" styleClass="subheading"/>
+        </HBox>
 
-</AnchorPane>
+        <!-- Info -->
+        <TitledPane expanded="false" text="🛈 Was macht dieser Bereich?" maxWidth="900">
+            <VBox >
+            <Label style="-fx-font-weight: bold;"
+                   text="In diesem Bereich können Sie Ihre Unterrichtsfächer individuell gewichten." wrapText="true" />
+            <Label text="• Legen Sie Ihre Komponenten an (z.B. Diktate, Referate, usw) ." wrapText="true" />
+            <Label text="• Stellen Sie nun die prozentuale Gewichtung der Gesamtnote dieses Faches ein." wrapText="true" />
+            <Label text="• Speichern Sie die neue Gewichtung. Kann bei Bedarf geändert werden." wrapText="true" />
+            </VBox>
+        </TitledPane>
+
+    </VBox>
+</StackPane>

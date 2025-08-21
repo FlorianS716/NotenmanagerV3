@@ -1,29 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
+<AnchorPane xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="at.wifi.notenmanager.controller.RegisterController"
-            prefHeight="400.0" prefWidth="600.0"
-            stylesheets="@notenmanagerTheme.css">
+            prefWidth="600" prefHeight="400"
+            stylesheets="@notenmanagerTheme.css"
+            styleClass="root">
 
-    <VBox styleClass="card">
+    <VBox spacing="12"
+          alignment="CENTER"
+          maxWidth="400"
+          layoutX="100" layoutY="30"
+          AnchorPane.topAnchor="0.0"
+          AnchorPane.bottomAnchor="0.0"
+          AnchorPane.leftAnchor="0.0"
+          AnchorPane.rightAnchor="0.0"
+          styleClass="card">
+
+        <!-- Überschrift -->
         <Label text="Registrierung" styleClass="heading"/>
 
-        <Label text="E-Mail" styleClass="form-label"/>
-        <TextField fx:id="emailField" promptText="E-Mail" styleClass="text-field"/>
+        <!-- E-Mail -->
+        <Label text="E-Mail" styleClass="subheading"/>
+        <TextField fx:id="emailField" promptText="z. B. lehrer@schule.at" styleClass="text-field"/>
 
-        <Label text="Passwort" styleClass="form-label"/>
-        <PasswordField fx:id="passwordField" promptText="Mind. 7 Zeichen lang" styleClass="password-field"/>
+        <!-- Passwort -->
+        <Label text="Passwort" styleClass="subheading"/>
+        <PasswordField fx:id="passwordField" promptText="Mind. 7 Zeichen" styleClass="text-field"/>
 
+        <!-- Statusmeldung -->
         <Label fx:id="statusLabel" styleClass="status-label"/>
 
-        <Button text="Registrieren" onAction="#handleRegister" styleClass="primary-button"/>
-    </VBox>
+        <!-- Button -->
+        <Button text="Registrieren" onAction="#handleRegister" styleClass="button login-button"/>
+        <Button text="Zurück zur Startseite" onAction="#handleRedirect" styleClass="button login-button"/>
 
+
+    </VBox>
 </AnchorPane>

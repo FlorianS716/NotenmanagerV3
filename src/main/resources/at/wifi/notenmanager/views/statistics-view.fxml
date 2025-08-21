@@ -1,54 +1,101 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="780.0" prefWidth="1052.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.wifi.notenmanager.controller.StatisticsController">
+<StackPane prefHeight="1348.0" prefWidth="1520.0" styleClass="root" stylesheets="@notenmanagerTheme.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.wifi.notenmanager.controller.StatisticsController">
 
-    <Label layoutX="386.0" layoutY="32.0" prefHeight="77.0" prefWidth="413.0" style="-fx-font-size: 16px; -fx-font-weight: bold" text="Gesamtübersicht Schüler" />
+    <VBox alignment="CENTER" maxWidth="1483.0" prefHeight="1308.0" prefWidth="1483.0" spacing="24" styleClass="card">
 
-    <HBox layoutX="277.0" layoutY="129.0" spacing="10">
-        <Label text="Schüler:" />
-        <ComboBox fx:id="studentComboBox" onAction="#loadData" prefWidth="250" />
-        <Button onAction="#exportToExcel" text="Als Excel exportieren" />
-    </HBox>
+        <!-- Titel -->
+        <Label alignment="CENTER" styleClass="heading" text="Gesamtübersicht Schüler" />
 
-    <TitledPane expanded="true" layoutX="14.0" layoutY="189.0" prefHeight="286.0" prefWidth="526.0" text="Notenübersicht">
-        <TableView fx:id="gradesTable" prefHeight="200">
-            <columns>
-                <TableColumn fx:id="gradeSubjectColumn" text="Fach" />
-                <TableColumn fx:id="gradeDateColumn" text="Datum" />
-                <TableColumn fx:id="gradeValueColumn" text="Note" />
-                <TableColumn fx:id="gradeTypeColumn" text="Typ" />
-            </columns>
-        </TableView>
-    </TitledPane>
+        <!-- Schülerauswahl & Export -->
+        <HBox alignment="CENTER_LEFT" spacing="10">
+            <Label styleClass="subheading" text="Schüler:" />
+            <ComboBox fx:id="studentComboBox" onAction="#loadData" prefWidth="245" promptText="Schüler wählen" styleClass="combo-box" />
+            <Pane HBox.hgrow="ALWAYS" />
+            <Button onAction="#exportToExcel" styleClass="button login-button" text="Als Excel exportieren" />
+        </HBox>
 
-    <TitledPane expanded="true" layoutX="14.0" layoutY="484.0" prefHeight="249.0" prefWidth="526.0" text="Verhalten">
-        <TableView fx:id="behaviorTable" prefHeight="200">
-            <columns>
-                <TableColumn fx:id="behaviorSubjectColumn" text="Fach" />
-                <TableColumn fx:id="behaviorDateColumn" text="Datum" />
-                <TableColumn fx:id="behaviorRatingColumn" text="Bewertung" />
-                <TableColumn fx:id="behaviorCommentColumn" text="Kommentar" />
-            </columns>
-        </TableView>
-    </TitledPane>
+        <!-- Grid mit Datenbereichen -->
+        <GridPane hgap="20" vgap="20">
+            <columnConstraints>
+                <ColumnConstraints percentWidth="36.0" />
+                <ColumnConstraints percentWidth="64.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints vgrow="ALWAYS" />
+                <RowConstraints vgrow="ALWAYS" />
+            </rowConstraints>
 
-    <TitledPane expanded="true" layoutX="548.0" layoutY="189.0" prefHeight="286.0" prefWidth="504.0" text="Gewichtete Gesamtnoten">
-        <VBox fx:id="finalGradesBox" prefHeight="262.0" prefWidth="490.0" spacing="5" />
-        <padding>
-            <Insets bottom="10" left="10" right="10" top="10" />
-        </padding>
-    </TitledPane>
+            <!-- Notenübersicht -->
+            <TitledPane expanded="true" prefHeight="473.0" prefWidth="658.0" styleClass="titled-pane" text="Notenübersicht" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                <content>
+                    <TableView fx:id="gradesTable" prefHeight="400.0" prefWidth="641.0" styleClass="table-view">
+                        <columns>
+                            <TableColumn fx:id="gradeSubjectColumn" prefWidth="120" text="Fach" />
+                            <TableColumn fx:id="gradeDateColumn" prefWidth="76" text="Datum" />
+                            <TableColumn fx:id="gradeValueColumn" prefWidth="93" text="Note" />
+                            <TableColumn fx:id="gradeTypeColumn" prefWidth="167" text="Typ" />
+                        </columns>
+                    </TableView>
+                </content>
+            </TitledPane>
 
-    <ScrollPane fitToWidth="true" layoutX="556.0" layoutY="484.0" prefHeight="249.0" prefWidth="23.0">
-        <VBox fx:id="chartsContainer" spacing="20" />
-        <padding>
-            <Insets bottom="10" left="10" right="10" top="10" />
-        </padding>
-    </ScrollPane>
-    
+            <!-- Verhalten -->
+            <TitledPane expanded="true" styleClass="titled-pane" text="Verhalten" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                <content>
+                    <TableView fx:id="behaviorTable" styleClass="table-view">
+                        <columns>
+                            <TableColumn fx:id="behaviorSubjectColumn" text="Fach" />
+                            <TableColumn fx:id="behaviorDateColumn" text="Datum" />
+                            <TableColumn fx:id="behaviorRatingColumn" text="Bewertung" />
+                            <TableColumn fx:id="behaviorCommentColumn" prefWidth="219" text="Kommentar" />
+                        </columns>
+                    </TableView>
+                </content>
+            </TitledPane>
 
-</AnchorPane>
+            <!-- Gewichtete Gesamtnoten -->
+            <TitledPane expanded="true" prefHeight="463.0" prefWidth="498.0" styleClass="final-grade-box" text="Gewichtete Gesamtnoten" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                <content>
+                    <VBox fx:id="finalGradesBox" prefHeight="390.0" prefWidth="472.0" spacing="8" styleClass="card" />
+                </content>
+            </TitledPane>
+
+            <!-- Diagramme -->
+            <TitledPane expanded="true" styleClass="titled-pane" text="Diagramme" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                <content>
+                    <ScrollPane fitToWidth="true">
+                        <VBox fx:id="chartsContainer" spacing="20" />
+                    </ScrollPane>
+                </content>
+            </TitledPane>
+        </GridPane>
+
+        <!-- Info -->
+        <TitledPane expanded="false" maxWidth="950" text="🛈 Was macht dieser Bereich?">
+            <VBox >
+                <Label style="-fx-font-weight: bold;" text="In diesem Bereich erhalten Sie eine vollständige Übersicht pro Schüler." wrapText="true" />
+                <Label text="• Wählen Sie einen Schüler aus, um alle vorhandenen Noten und Notizen anzuzeigen." wrapText="true" />
+                <Label text="• Gewichtete Gesamtnoten: Zeigt den vollständigen Überblick über die Leistungen des Kindes." wrapText="true" />
+                <Label text="• Verhalten wird aus rechtlichen Gründen separat dargestellt (§ 20 SchUG, § 21 Abs. 3 SchUG, § 21 Abs. 5 SchUG)." wrapText="true" />
+            </VBox>
+        </TitledPane>
+
+    </VBox>
+</StackPane>

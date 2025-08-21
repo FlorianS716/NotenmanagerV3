@@ -29,7 +29,6 @@ public class SubjectController {
     @FXML public Label statusLabel;
     @FXML public Button saveButton;
     @FXML public Button deleteButton;
-    @FXML public Button reloadButton;
     @FXML public Button editDetailsButton;
     @FXML public TableView<Subject> subjectTable;
     @FXML public TableColumn<Subject, Number> idColumn;
@@ -57,12 +56,6 @@ public class SubjectController {
         refreshTable();
     }
 
-    @FXML
-    private void onReload() {
-        refreshTable();
-        setStatus("");
-    }
-
     public void onSave(ActionEvent actionEvent) throws SQLException {
         String name = nameField.getText();
 
@@ -83,6 +76,10 @@ public class SubjectController {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
+        refreshTable();
+        clearForm();
+        selectedForEdit = null;
 
     }
 
@@ -106,9 +103,6 @@ public class SubjectController {
                 }
             }
         });
-    }
-
-    public void onReload(ActionEvent actionEvent) {
     }
 
     public void onEditDetails(ActionEvent actionEvent) {

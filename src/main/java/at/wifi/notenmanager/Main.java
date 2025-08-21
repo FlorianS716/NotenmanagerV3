@@ -15,7 +15,6 @@ public class Main extends Application {
         stage.setTitle("Notenmanager");
         stage.setResizable(true);
         stage.setScene(scene);
-        stage.sizeToScene();
         stage.show();
     }
 

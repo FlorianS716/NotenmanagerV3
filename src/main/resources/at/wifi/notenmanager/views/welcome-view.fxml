@@ -1,22 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="at.wifi.notenmanager.controller.WelcomeController"
-            prefHeight="400.0" prefWidth="600.0"
-            stylesheets="@notenmanagerTheme.css">
+<AnchorPane prefHeight="400" prefWidth="600" styleClass="root" stylesheets="@notenmanagerTheme.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.wifi.notenmanager.controller.WelcomeController">
 
-        <VBox styleClass="card">
-            <Label styleClass="heading" text="Willkommen im Notenmanager" />
-            <Button onAction="#handleRegister" prefHeight="34.0" prefWidth="318.0" styleClass="primary-button" text="Registrieren" textAlignment="CENTER" />
-            <Button onAction="#handleLogin" prefHeight="34.0" prefWidth="320.0" styleClass="primary-button" text="Login" />
-        </VBox>
+    <VBox alignment="CENTER" maxWidth="400" spacing="20" styleClass="root" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 
+        <Label styleClass="heading" text="Willkommen im Notenmanager" />
 
+        <Button onAction="#handleRegister" prefHeight="34" prefWidth="320" styleClass="button login-button" text="Registrieren" />
+
+        <Button onAction="#handleLogin" prefHeight="34" prefWidth="320" styleClass="button login-button" text="Login" />
+
+    </VBox>
 </AnchorPane>

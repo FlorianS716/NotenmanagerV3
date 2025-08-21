@@ -3,30 +3,26 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="at.wifi.notenmanager.controller.DashboardController"
-            prefWidth="1000.0" prefHeight="700.0"
-            stylesheets="@notenmanagerTheme.css">
+<BorderPane prefHeight="700.0" prefWidth="1000.0" styleClass="root" stylesheets="@notenmanagerTheme.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.wifi.notenmanager.controller.DashboardController">
 
+    <!-- === Navigation / Toolbar === -->
     <top>
         <ToolBar fx:id="toolbar" styleClass="toolbar">
-            <Button text="Schüler" onAction="#openStudentsView" styleClass="nav-button"/>
-            <Button text="Fächer" onAction="#openSubjectView" styleClass="nav-button"/>
-            <Button text="Noten" onAction="#openGradesView" styleClass="nav-button"/>
-            <Button text="Verhalten" onAction="#openBehaviorView" styleClass="nav-button"/>
-            <Button text="Notizen" onAction="#openNotesView" styleClass="nav-button"/>
-            <Button text="Statistik" onAction="#openStatisticsView" styleClass="nav-button"/>
-            <Region fx:id="spacer" HBox.hgrow="ALWAYS"/>
-            <Button text="Logout" onAction="#handleLogout" styleClass="logout-button"/>
+            <Button onAction="#openStudentsView" text="Schüler" />
+            <Button onAction="#openSubjectView" text="Fächer" />
+            <Button onAction="#openGradesView" text="Noten" />
+            <Button onAction="#openBehaviorView" text="Verhalten" />
+            <Button onAction="#openNotesView" text="Notizen" />
+            <Button onAction="#openStatisticsView" text="Statistik" />
+
+            <Region fx:id="spacer" HBox.hgrow="ALWAYS" />
+            <Button onAction="#handleLogout" styleClass="button logout-button" text="Logout" textFill="#c31e1e" />
         </ToolBar>
     </top>
 
+    <!-- === Inhaltsbereich mit dynamischen Tabs === -->
     <center>
-        <TabPane fx:id="tabPane"
-                 tabClosingPolicy="SELECTED_TAB"
-                 styleClass="tab-pane"
-                 prefHeight="600.0"/>
+        <TabPane fx:id="tabPane" prefHeight="600.0" styleClass="tab-pane" tabClosingPolicy="SELECTED_TAB" />
     </center>
 
 </BorderPane>
