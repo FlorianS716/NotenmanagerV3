@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="780.0" prefWidth="1052.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.wifi.notenmanager.controller.StatisticsController">
+
+    <Label layoutX="386.0" layoutY="32.0" prefHeight="77.0" prefWidth="413.0" style="-fx-font-size: 16px; -fx-font-weight: bold" text="Gesamtübersicht Schüler" />
+
+    <HBox layoutX="277.0" layoutY="129.0" spacing="10">
+        <Label text="Schüler:" />
+        <ComboBox fx:id="studentComboBox" onAction="#loadData" prefWidth="250" />
+        <Button onAction="#exportToExcel" text="Als Excel exportieren" />
+    </HBox>
+
+    <TitledPane expanded="true" layoutX="14.0" layoutY="189.0" prefHeight="286.0" prefWidth="526.0" text="Notenübersicht">
+        <TableView fx:id="gradesTable" prefHeight="200">
+            <columns>
+                <TableColumn fx:id="gradeSubjectColumn" text="Fach" />
+                <TableColumn fx:id="gradeDateColumn" text="Datum" />
+                <TableColumn fx:id="gradeValueColumn" text="Note" />
+                <TableColumn fx:id="gradeTypeColumn" text="Typ" />
+            </columns>
+        </TableView>
+    </TitledPane>
+
+    <TitledPane expanded="true" layoutX="14.0" layoutY="484.0" prefHeight="249.0" prefWidth="526.0" text="Verhalten">
+        <TableView fx:id="behaviorTable" prefHeight="200">
+            <columns>
+                <TableColumn fx:id="behaviorSubjectColumn" text="Fach" />
+                <TableColumn fx:id="behaviorDateColumn" text="Datum" />
+                <TableColumn fx:id="behaviorRatingColumn" text="Bewertung" />
+                <TableColumn fx:id="behaviorCommentColumn" text="Kommentar" />
+            </columns>
+        </TableView>
+    </TitledPane>
+
+    <TitledPane expanded="true" layoutX="548.0" layoutY="189.0" prefHeight="286.0" prefWidth="504.0" text="Gewichtete Gesamtnoten">
+        <VBox fx:id="finalGradesBox" prefHeight="262.0" prefWidth="490.0" spacing="5" />
+        <padding>
+            <Insets bottom="10" left="10" right="10" top="10" />
+        </padding>
+    </TitledPane>
+
+    <ScrollPane fitToWidth="true" layoutX="556.0" layoutY="484.0" prefHeight="249.0" prefWidth="23.0">
+        <VBox fx:id="chartsContainer" spacing="20" />
+        <padding>
+            <Insets bottom="10" left="10" right="10" top="10" />
+        </padding>
+    </ScrollPane>
+    
+
+</AnchorPane>

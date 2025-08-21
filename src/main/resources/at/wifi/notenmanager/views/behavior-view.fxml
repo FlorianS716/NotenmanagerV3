@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="506.0" prefWidth="725.0" stylesheets="@notenmanagerTheme.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.wifi.notenmanager.controller.BehaviorController">
+   <children>
+      <GridPane hgap="12.0" layoutX="109.0" layoutY="14.0" prefHeight="244.0" prefWidth="498.0" vgap="10.0" AnchorPane.rightAnchor="331.0">
+        <columnConstraints>
+            <ColumnConstraints halignment="RIGHT" minWidth="120" />
+            <ColumnConstraints hgrow="ALWAYS" />
+        </columnConstraints>
+
+          <Label text="Schüler:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+          <ComboBox fx:id="studentComboBox" onAction="#onFilterChanged" promptText="Schüler auswählen" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+          <Label text="Fach:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+          <ComboBox fx:id="subjectComboBox" onAction="#onFilterChanged" promptText="Fach auswählen" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+          <Label text="Datum:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+          <DatePicker fx:id="datePicker" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+          <Label text="Mitarbeitsnote (1–5):" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+          <ComboBox fx:id="ratingComboBox" promptText="Note wählen" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+          <Label text="Kommentar:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+          <TextArea fx:id="commentArea" prefRowCount="3" promptText="Optionaler Kommentar" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+         <rowConstraints>
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+         </rowConstraints>
+      </GridPane>
+
+       <TableView fx:id="behaviorTable" layoutY="265.0" prefHeight="470.0" prefWidth="938.0">
+           <columns>
+               <TableColumn fx:id="dateColumn" prefWidth="120" text="Datum" />
+               <TableColumn fx:id="ratingColumn" prefWidth="80" text="Note" />
+<!--               <TableColumn fx:id="studentColumn" prefWidth="200" text="Schüler" />-->
+<!--               <TableColumn fx:id="subjectColumn" prefWidth="160" text="Fach" />-->
+               <TableColumn fx:id="commentColumn" prefWidth="300" text="Kommentar" />
+           </columns>
+           <placeholder>
+               <Label text="Keine Einträge vorhanden." />
+           </placeholder>
+       </TableView>
+
+       <HBox alignment="CENTER_RIGHT" layoutX="603.0" layoutY="233.0" prefHeight="25.0" prefWidth="321.0" spacing="10">
+           <Label fx:id="averageLabel" style="-fx-text-fill: #555;" text="" />
+           <Button onAction="#onSave" text="Speichern" />
+           <Button onAction="#onDelete" text="Löschen" />
+           <Button onAction="#onEdit" text="Aktualisieren" />
+       </HBox>
+
+   </children>
+</AnchorPane>

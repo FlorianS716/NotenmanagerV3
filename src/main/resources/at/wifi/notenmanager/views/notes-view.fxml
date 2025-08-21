@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="513.0" prefWidth="751.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.wifi.notenmanager.controller.NotesController">
+
+    <Label layoutX="14.0" layoutY="14.0" prefHeight="53.0" prefWidth="378.0" style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Meine Notizen" />
+    <ListView fx:id="notesListView" layoutX="13.0" layoutY="212.0" prefHeight="289.0" prefWidth="727.0" />
+    <Label layoutX="13.0" layoutY="99.0" text="Notiz bearbeiten oder hinzufügen:" />
+    <TextArea fx:id="noteTextArea" layoutX="14.0" layoutY="116.0" prefRowCount="4" wrapText="true" />
+
+    <HBox alignment="CENTER_RIGHT" layoutX="500.0" layoutY="176.0" spacing="10">
+        <Button fx:id="saveButton" onAction="#handleSaveNote" text="Speichern" />
+        <Button fx:id="deleteButton" onAction="#handleDeleteNote" text="Löschen" />
+    </HBox>
+
+</AnchorPane>

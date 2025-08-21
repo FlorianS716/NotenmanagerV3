@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="580.0" prefWidth="697.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.wifi.notenmanager.controller.GradingCompController">
+
+    <Label layoutX="115.0" layoutY="59.0" style="-fx-font-size: 16px; -fx-font-weight: bold" text="Bewertungskomponenten für dieses Fach" />
+
+    <TableView fx:id="componentTable" layoutX="14.0" layoutY="239.0" prefHeight="328.0" prefWidth="664.0">
+        <columns>
+            <TableColumn fx:id="idColumn" prefWidth="60" text="ID" />
+            <TableColumn fx:id="nameColumn" prefWidth="220" text="Komponente" />
+            <TableColumn fx:id="weightColumn" prefWidth="200" text="Gewichtung (%)" />
+        </columns>
+        <placeholder>
+            <Label text="Noch keine Bewertungskomponenten vorhanden." />
+        </placeholder>
+    </TableView>
+
+    <TitledPane expanded="true" layoutX="14.0" layoutY="97.0" prefHeight="71.0" prefWidth="469.0" text="Neue Komponente hinzufügen / bearbeiten">
+        <GridPane hgap="12" vgap="10">
+            <padding>
+                <Insets bottom="10" left="10" right="10" top="10" />
+            </padding>
+            <columnConstraints>
+                <ColumnConstraints halignment="RIGHT" minWidth="140" />
+                <ColumnConstraints hgrow="ALWAYS" />
+            </columnConstraints>
+
+            <Label text="Name:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <TextField fx:id="nameField" promptText="z.B. Lesen" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+         <rowConstraints>
+            <RowConstraints />
+         </rowConstraints>
+        </GridPane>
+    </TitledPane>
+
+    <HBox alignment="CENTER_LEFT" layoutX="14.0" layoutY="186.0" prefHeight="25.0" prefWidth="469.0" spacing="10">
+        <Label fx:id="statusLabel" textFill="red" />
+        <Pane HBox.hgrow="ALWAYS" />
+        <Button fx:id="addButton" onAction="#onAdd" text="Hinzufügen" />
+        <Button fx:id="updateButton" onAction="#onUpdate" text="Aktualisieren" />
+        <Button fx:id="deleteButton" onAction="#onDelete" text="Löschen" />
+        <Button fx:id="saveButton" disable="true" onAction="#onSave" text="Speichern" />
+    </HBox>
+
+    <Label fx:id="totalLabel" layoutX="494.0" layoutY="198.0" prefHeight="31.0" prefWidth="186.0" style="-fx-font-weight: bold;" />
+
+</AnchorPane>

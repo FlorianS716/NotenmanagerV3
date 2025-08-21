@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="554.0" prefWidth="804.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.wifi.notenmanager.controller.GradesController">
+
+    <Label layoutX="320.0" layoutY="14.0" prefHeight="25.0" prefWidth="180.0" style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Notenverwaltung" />
+
+    <HBox alignment="CENTER_LEFT" layoutX="4.0" layoutY="61.0" spacing="12">
+        <Label text="Schüler:" />
+        <ComboBox fx:id="studentComboBox" prefWidth="200" promptText="Schüler wählen" />
+
+        <Label text="Fach:" />
+        <ComboBox fx:id="subjectComboBox" prefWidth="200" promptText="Fach wählen" />
+
+        <Label text="Komponente:" />
+        <ComboBox fx:id="componentComboBox" prefWidth="180" promptText="z.B. Diktat" />
+    </HBox>
+
+    <HBox alignment="CENTER_LEFT" layoutX="14.0" layoutY="103.0" spacing="12">
+        <Label text="Note (1–5):" />
+        <Spinner fx:id="noteSpinner" prefWidth="80" />
+
+        <Label text="Datum:" />
+        <DatePicker fx:id="gradeDatePicker" />
+
+        <Pane HBox.hgrow="ALWAYS" />
+        <Button defaultButton="true" onAction="#handleSave" text="Speichern" />
+        <Button onAction="#handleDelete" text="Löschen" />
+    </HBox>
+
+    <HBox alignment="CENTER_LEFT" layoutX="130.0" layoutY="513.0" prefHeight="27.0" prefWidth="820.0" spacing="12">
+        <Label fx:id="statusLabel" />
+        <Pane HBox.hgrow="ALWAYS" />
+        <Label fx:id="avgLabel" style="-fx-text-fill: #333;" />
+    </HBox>
+
+    <Label layoutX="21.0" layoutY="518.0" style="-fx-font-weight: bold;" text="Vergebene Noten" />
+    <TableView fx:id="gradeTable" layoutX="14.0" layoutY="134.0" prefHeight="365.0" prefWidth="563.0">
+        <columns>
+            <TableColumn fx:id="componentCol" prefWidth="180" text="Komponente" />
+            <TableColumn fx:id="dateCol" prefWidth="160" text="Datum" />
+            <TableColumn fx:id="noteCol" prefWidth="100" text="Note" />
+        </columns>
+        <placeholder>
+            <Label text="Noch keine Noten eingetragen." />
+        </placeholder>
+    </TableView>
+
+</AnchorPane>

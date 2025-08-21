@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="at.wifi.notenmanager.controller.LoginController"
+            prefHeight="400.0" prefWidth="600.0"
+            stylesheets="@notenmanagerTheme.css">
+
+    <VBox styleClass="card">
+        <Label text="Login" styleClass="heading"/>
+
+        <Label text="E-Mail" styleClass="form-label"/>
+        <TextField fx:id="emailField" promptText="E-Mail" styleClass="text-field"/>
+
+        <Label text="Passwort" styleClass="form-label"/>
+        <PasswordField fx:id="passwordField" promptText="Passwort" styleClass="password-field"/>
+
+        <Label fx:id="feedbackLabel" styleClass="status-label"/>
+        <Button text="Einloggen" onAction="#handleLogin" styleClass="primary-button"/>
+    </VBox>
+
+</AnchorPane>

@@ -1,0 +1,61 @@
+/* ===== Toolbar ===== */
+.toolbar {
+    -fx-padding: 12;
+    -fx-spacing: 10;
+    -fx-background-color: linear-gradient(to bottom, #ffffff, #f9fafb);
+    -fx-border-color: #e5e7eb;
+    -fx-border-width: 0 0 1 0;
+    -fx-background-radius: 12 12 0 0;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 4, 0.2, 0, 2);
+}
+
+/* ===== Navigation Buttons ===== */
+.nav-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #1f2937; /* Dunkles Grau (modern) */
+    -fx-font-weight: 600;
+    -fx-font-size: 13px;
+    -fx-padding: 6 16;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-border-color: transparent;
+    -fx-cursor: hand;
+    -fx-transition: all 0.2s ease-in-out;
+}
+
+.nav-button:hover {
+    -fx-background-color: #e5e7eb; /* dezentes hellgrau */
+    -fx-text-fill: #111827;
+}
+
+/* ===== Logout Button (Gefahrenfarbe) ===== */
+.logout-button {
+    -fx-background-color: #ef4444; /* modernes, lebendiges Rot */
+    -fx-text-fill: white;
+    -fx-font-weight: 600;
+    -fx-font-size: 13px;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-border-color: transparent;
+    -fx-cursor: hand;
+}
+
+.logout-button:hover {
+    -fx-background-color: #dc2626;
+}
+
+/* ===== Tabs / Hauptinhalt ===== */
+.tab-pane {
+    -fx-background-color: #ffffff;
+    -fx-padding: 16;
+    -fx-border-color: #e5e7eb;
+    -fx-border-radius: 12;
+    -fx-background-radius: 12;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.04), 6, 0.1, 0, 2);
+}
+
+/* ===== Optional: Einheitlicher Stil für Tab-Titel ===== */
+.tab-pane .tab-label {
+    -fx-text-fill: #374151; /* Modernes dunkles Grau */
+    -fx-font-weight: 600;
+}
