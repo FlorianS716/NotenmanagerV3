@@ -15,10 +15,13 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 
+import javafx.stage.FileChooser;
+import javafx.stage.Window;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -265,7 +268,7 @@ public class StatisticsController {
                 }
 
                 Row summaryRow = sheet.createRow(rowIndex++);
-                summaryRow.createCell(0).setCellValue("→ Gesamtnote " + subject.getName());
+                summaryRow.createCell(0).setCellValue("Gesamtnote " + subject.getName());
 
                 Cell cFinal = summaryRow.createCell(4);
                 cFinal.setCellValue(weightedSum);
@@ -278,12 +281,35 @@ public class StatisticsController {
                 sheet.autoSizeColumn(i);
             }
 
-            String filename = "Notenübersicht_" + student.getLastName() + "_" + student.getFirstName() + ".xlsx";
-            try (FileOutputStream fileOut = new FileOutputStream(filename)) {
+            //Speicherort wählen:
+
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Excel speichern");
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Excel-Datei (*.xlsx)", "*.xlsx"));
+            fileChooser.setInitialFileName("Notenübersicht_" + student.getFirstName() + "_" + student.getLastName() + ".xlsx");
+            File home = new File(System.getProperty("user.home"));
+            if (home.exists()){
+                fileChooser.setInitialDirectory(home);
+            }
+
+            Window window = studentComboBox.getScene() != null ? studentComboBox.getScene().getWindow() : null;
+            File target = fileChooser.showSaveDialog(window);
+
+            if (target == null) {
+                return;
+            }
+
+            // Sicherstellen, dass die Datei die richtige Endung hat
+            String path = target.getAbsolutePath();
+            if (!path.toLowerCase().endsWith(".xlsx")) {
+                target = new File(path + ".xlsx");
+            }
+
+            try (FileOutputStream fileOut = new FileOutputStream(target)) {
                 workbook.write(fileOut);
             }
 
-            showInfo("Excel-Datei erfolgreich exportiert:\n" + filename);
+            showInfo("Excel-Datei erfolgreich exportiert:\n" + target.getAbsolutePath());
 
         } catch (SQLException | IOException e) {
             showError("Export fehlgeschlagen: " + e.getMessage());
