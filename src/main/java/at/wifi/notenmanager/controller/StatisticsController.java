@@ -10,10 +10,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.chart.BarChart;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
+import javafx.scene.chart.*;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
@@ -27,13 +24,13 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 public class StatisticsController {
 
-    @FXML
-    private ComboBox<Students> studentComboBox;
+    @FXML private ComboBox<Students> studentComboBox;
     @FXML private TableView<Grades> gradesTable;
     @FXML private TableColumn<Grades, String> gradeSubjectColumn;
     @FXML private TableColumn<Grades, String> gradeDateColumn;
@@ -140,14 +137,13 @@ public class StatisticsController {
             for (Subject subject : subjects) {
                 List<Grades> grades = gradesDAO.getGradesByStudentAndSubject(student.getId(), subject.getId());
                 List<GradingComponent> components = new GradingComponentServiceImpl().findBySubjectId(subject.getId());
-
                 double weightedSum = 0.0;
                 double totalWeight = 0.0;
 
-                StringBuilder details = new StringBuilder(subject.getName()).append(": ");
+                //Beitrag je Komponente
+                Map<String, Double> contributions = new LinkedHashMap<>();
 
-                XYChart.Series<String, Number> series = new XYChart.Series<>();
-                series.setName(subject.getName());
+                StringBuilder details = new StringBuilder(subject.getName()).append(": ");
 
                 for (GradingComponent component : components) {
                     String type = component.getName();
@@ -159,35 +155,44 @@ public class StatisticsController {
 
                     if (!matching.isEmpty()) {
                         double avg = matching.stream().mapToInt(Grades::getRating).average().orElse(0);
-                        weightedSum += avg * weight;
+                        double contribution = avg * weight;
+                        weightedSum += contribution;
                         totalWeight += weight;
-
-                        details.append(String.format("%.0f%% %s (Ø %.2f), ", weight * 100, type, avg));
-                        series.getData().add(new XYChart.Data<>(type, avg));
+                        contributions.put(type, contribution);
+                        details.append(String.format("%.0f%% %s (⌀ %.2f), ", weight * 100, type, avg));
                     }
                 }
 
                 if (totalWeight == 0.0) continue;
 
                 double finalNote = weightedSum;
-                details.append(String.format("→ Gesamtnote: %.2f", finalNote));
+                details.append(String.format("Gesamtnote: %.2f", finalNote));
 
                 Label label = new Label(details.toString());
                 finalGradesBox.getChildren().add(label);
 
                 // Diagramm
                 CategoryAxis xAxis = new CategoryAxis();
+                xAxis.setLabel("");
+
                 NumberAxis yAxis = new NumberAxis(1, 5, 1);
-                yAxis.setLabel("Ø Note");
+                yAxis.setLabel("1 = Sehr gut");
 
-                BarChart<String, Number> barChart = new BarChart<>(xAxis, yAxis);
-                barChart.setTitle("Notendurchschnitt – " + subject.getName());
-                barChart.setLegendVisible(false);
-                barChart.setPrefHeight(220);
-                barChart.setAnimated(false);
-                barChart.getData().add(series);
+                StackedBarChart<String, Number> chart = new StackedBarChart<>(xAxis, yAxis);
+                chart.setTitle("Gesamtbeitrag der Komponenten – " + subject.getName());
+                chart.setLegendVisible(true);
+                chart.setAnimated(false);
+                chart.setCategoryGap(20);
+                chart.setPrefHeight(200);
 
-                chartsContainer.getChildren().add(barChart);
+                //Für jeden Eintrag eine Serie mit genau einem Datenpunkt
+                contributions.forEach((String type, Double contrib) -> {
+                    XYChart.Series<String, Number> s = new XYChart.Series<>();
+                    s.setName(type);
+                    s.getData().add(new XYChart.Data<>(subject.getName(), contrib));
+                    chart.getData().add(s);
+                });
+                chartsContainer.getChildren().add(chart);
             }
 
         } catch (SQLException e) {

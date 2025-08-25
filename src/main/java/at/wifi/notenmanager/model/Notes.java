@@ -42,6 +42,6 @@ public class Notes {
 
     @Override
     public String toString() {
-        return "Datum: " + date + "Notiz: " + text;
+        return "Datum: " + date + "| Notiz: " + text;
     }
 }

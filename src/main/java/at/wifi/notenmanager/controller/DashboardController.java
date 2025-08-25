@@ -12,9 +12,7 @@ import java.io.IOException;
 public class DashboardController {
     @FXML public ToolBar toolbar;
     @FXML public Region spacer;
-
-    @FXML
-    private TabPane tabPane;
+    @FXML private TabPane tabPane;
 
     @FXML
     private void openStudentsView() {

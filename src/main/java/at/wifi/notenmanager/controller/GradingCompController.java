@@ -23,7 +23,6 @@ public class GradingCompController {
     @FXML public TableColumn<GradingComponent, Number> weightColumn;
     @FXML public Label statusLabel;
     @FXML public Button addButton;
-    @FXML public Button updateButton;
     @FXML public Button deleteButton;
     @FXML public Button saveButton;
     @FXML public Label totalLabel;
@@ -44,7 +43,7 @@ public class GradingCompController {
     public void initialize(){
         idColumn.setCellValueFactory(c -> new SimpleIntegerProperty(c.getValue().getId()));
         nameColumn.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getName()));
-        weightColumn.setCellValueFactory(c-> new SimpleIntegerProperty((int) c.getValue().getWeight()));
+        weightColumn.setCellValueFactory(c-> new SimpleIntegerProperty((int) Math.round(c.getValue().getWeight() * 100)));
         weightColumn.setCellFactory(column -> new TableCell<>(){
             private final Slider slider = new Slider(0,100,50);
 
@@ -57,7 +56,7 @@ public class GradingCompController {
                 slider.setPrefWidth(140);
                 slider.valueProperty().addListener((obs, oldVal, newVal) -> {
                     GradingComponent component = getTableView().getItems().get(getIndex());
-                    component.setWeight((float) (newVal.doubleValue() / 100));
+                    component.setWeight(newVal.intValue() / 100.0);
                     updateTotalLabel();
                 });
             }
@@ -103,29 +102,6 @@ public class GradingCompController {
         }
     }
 
-    public void onUpdate(ActionEvent actionEvent) {
-            if (selected == null) {
-                setStatus("Keine Komponente ausgewählt.");
-                return;
-            }
-
-            String name = trim(nameField.getText());
-            if (name.isEmpty()) {
-                setStatus("Bitte gültigen Namen eingeben.");
-                return;
-            }
-
-            try {
-                selected.setName(name);
-                componentService.update(selected);
-                loadComponents();
-                clearForm();
-                setStatus("Komponente aktualisiert.");
-            } catch (SQLException e) {
-                setStatus("Update-Fehler: " + e.getMessage());
-            }
-        }
-
 
     public void onDelete(ActionEvent actionEvent) {
         if (selected == null) {
@@ -144,13 +120,16 @@ public class GradingCompController {
 
     }
 
+
     public void onSave(ActionEvent actionEvent) {
         double sum = components.stream()
                 .mapToDouble(GradingComponent::getWeight)
                 .sum();
 
-        if (Math.abs(sum - 1.0) > 0.1) {
-            setStatus("Die Gewichtung muss exakt 100 % ergeben.");
+        int percent = (int) Math.round(sum * 100);
+
+        if (percent != 100) {
+            setStatus("Die Gewichtung muss exakt 100 % ergeben (aktuell: " + percent + "%).");
             return;
         }
 

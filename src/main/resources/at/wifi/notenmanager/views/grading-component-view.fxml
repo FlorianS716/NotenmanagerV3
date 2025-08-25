@@ -34,7 +34,6 @@
         <HBox alignment="CENTER_LEFT" spacing="12">
             <Label fx:id="statusLabel" styleClass="subheading"/>
             <Button fx:id="addButton" onAction="#onAdd" text="Hinzufügen" styleClass="button login-button"/>
-            <Button fx:id="updateButton" onAction="#onUpdate" text="Aktualisieren" styleClass="button"/>
             <Button fx:id="deleteButton" onAction="#onDelete" text="Löschen" styleClass="button logout-button"/>
             <Button fx:id="saveButton" onAction="#onSave" text="Speichern" styleClass="button" disable="true"/>
         </HBox>
@@ -62,7 +61,8 @@
             <Label style="-fx-font-weight: bold;"
                    text="In diesem Bereich können Sie Ihre Unterrichtsfächer individuell gewichten." wrapText="true" />
             <Label text="• Legen Sie Ihre Komponenten an (z.B. Diktate, Referate, usw) ." wrapText="true" />
-            <Label text="• Stellen Sie nun die prozentuale Gewichtung der Gesamtnote dieses Faches ein." wrapText="true" />
+            <Label text="• Stellen Sie nun die prozentuale Gewichtung der Gesamtnote dieses Faches ein.
+            (Gewichtung muss 100% ergeben)" wrapText="true" />
             <Label text="• Speichern Sie die neue Gewichtung. Kann bei Bedarf geändert werden." wrapText="true" />
             </VBox>
         </TitledPane>

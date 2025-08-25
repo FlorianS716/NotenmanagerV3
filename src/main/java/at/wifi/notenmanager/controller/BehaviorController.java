@@ -24,11 +24,7 @@ public class BehaviorController {
     @FXML private TableView<Behavior> behaviorTable;
     @FXML private TableColumn<Behavior, String> dateColumn;
     @FXML private TableColumn<Behavior, Integer> ratingColumn;
-//    @FXML private TableColumn<Behavior, String> studentColumn;
-//    @FXML private TableColumn<Behavior, String> subjectColumn;
     @FXML private TableColumn<Behavior, String> commentColumn;
-
-    @FXML private Label averageLabel;
 
     private final BehaviorService behaviorService = new BehaviorServiceImpl(new BehaviorDAO());
     private final StudentsServiceImpl studentsService = new StudentsServiceImpl();
@@ -62,7 +58,7 @@ public class BehaviorController {
         Integer selectedRating = ratingComboBox.getValue();
         String comment = commentArea.getText();
 
-        if (selectedStudent == null || selectedSubject == null || selectedDate == null || selectedRating == null) {
+        if (selectedStudent == null || selectedSubject == null || selectedDate == null || selectedRating == null ) {
             showAlert("Bitte alle Felder ausfüllen.");
             return;
         }
@@ -96,11 +92,7 @@ public class BehaviorController {
         Subject selectedSubject = subjectComboBox.getValue();
 
         if (selectedStudent != null && selectedSubject != null) {
-            behaviorTable.setItems(FXCollections.observableArrayList(
-                    behaviorService.getBehaviorByStudentAndSubject(
-                            selectedStudent.getId(), selectedSubject.getId()
-                    )
-            ));
+            behaviorTable.setItems(FXCollections.observableArrayList(behaviorService.getBehaviorByStudentAndSubject(selectedStudent.getId(), selectedSubject.getId())));
         }
     }
 

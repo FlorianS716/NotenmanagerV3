@@ -48,7 +48,6 @@
 
         <!-- Aktionen -->
         <HBox alignment="CENTER_RIGHT" spacing="10">
-            <Label fx:id="averageLabel" styleClass="subheading" />
             <Button text="Speichern" onAction="#onSave" styleClass="button login-button" />
             <Button text="Löschen" onAction="#onDelete" styleClass="button logout-button" />
             <Button text="Aktualisieren" onAction="#onEdit" styleClass="button" />
