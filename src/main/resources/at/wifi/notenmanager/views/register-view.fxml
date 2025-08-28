@@ -3,40 +3,38 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/23.0.1"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="at.wifi.notenmanager.controller.RegisterController"
-            prefWidth="600" prefHeight="400"
-            stylesheets="@notenmanagerTheme.css"
-            styleClass="root">
+<AnchorPane prefHeight="400" prefWidth="600" styleClass="root" stylesheets="@notenmanagerTheme.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.wifi.notenmanager.controller.RegisterController">
 
-    <VBox spacing="12"
-          alignment="CENTER"
-          maxWidth="400"
-          layoutX="100" layoutY="30"
-          AnchorPane.topAnchor="0.0"
-          AnchorPane.bottomAnchor="0.0"
-          AnchorPane.leftAnchor="0.0"
-          AnchorPane.rightAnchor="0.0"
-          styleClass="card">
+    <VBox alignment="CENTER" layoutX="40.0" layoutY="40.0" maxWidth="400" prefWidth="556.0" spacing="12" styleClass="card" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="24.0" AnchorPane.topAnchor="0.0">
 
         <!-- Überschrift -->
-        <Label text="Registrierung" styleClass="heading"/>
+        <Label styleClass="heading" text="Registrierung" />
 
         <!-- E-Mail -->
-        <Label text="E-Mail" styleClass="subheading"/>
-        <TextField fx:id="emailField" promptText="z. B. lehrer@schule.at" styleClass="text-field"/>
+        <Label styleClass="subheading" text="E-Mail" />
+        <TextField fx:id="emailField" promptText="z.B. lehrer@schule.at" styleClass="text-field" />
 
         <!-- Passwort -->
-        <Label text="Passwort" styleClass="subheading"/>
-        <PasswordField fx:id="passwordField" promptText="Mind. 7 Zeichen" styleClass="text-field"/>
+        <Label styleClass="subheading" text="Passwort" />
+        <PasswordField fx:id="passwordField" promptText="Passwort" styleClass="text-field" />
+      <PasswordField fx:id="passwordFieldConfirm" layoutX="27.0" layoutY="197.0" promptText="Passwort wiederholen" styleClass="text-field" />
+
+        <VBox spacing="6">
+            <CheckBox fx:id="lenCheck" text="5–20 Zeichen" disable="true"/>
+            <CheckBox fx:id="lowerCheck" text="Mindestens 1 Kleinbuchstabe" disable="true"/>
+            <CheckBox fx:id="upperCheck" text="Mindestens 1 Großbuchstabe" disable="true"/>
+            <CheckBox fx:id="digitCheck" text="Mindestens 1 Zahl" disable="true"/>
+            <CheckBox fx:id="specialCheck" text="Mindestens 1 Sonderzeichen (@ # $ % ^ * ! ? -)" disable="true"/>
+            <CheckBox fx:id="matchCheck" text="Passwort = Bestätigung" disable="true"/>
+        </VBox>
 
         <!-- Statusmeldung -->
-        <Label fx:id="statusLabel" styleClass="status-label"/>
+        <Label fx:id="statusLabel" styleClass="status-label" />
+
 
         <!-- Button -->
-        <Button text="Registrieren" onAction="#handleRegister" styleClass="button login-button"/>
-        <Button text="Zurück zur Startseite" onAction="#handleRedirect" styleClass="button login-button"/>
+        <Button onAction="#handleRegister" styleClass="button login-button" text="Registrieren" />
+        <Button onAction="#handleRedirect" styleClass="button login-button" text="Zurück zur Startseite" />
 
 
     </VBox>

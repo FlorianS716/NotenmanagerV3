@@ -35,7 +35,6 @@ public class GradesController {
     @FXML  public TableColumn<Grades, String> dateCol;
     @FXML  public TableColumn<Grades, String> noteCol;
 
-
     private final SubjectDAO subjectDAO = new SubjectDAO();
     private final StudentsServiceImpl studentService = new StudentsServiceImpl();
     private final GradingComponentServiceImpl componentService = new GradingComponentServiceImpl();
