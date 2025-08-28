@@ -1,22 +1,81 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 
-<BorderPane prefHeight="700.0" prefWidth="1000.0" styleClass="root" stylesheets="@notenmanagerTheme.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.wifi.notenmanager.controller.DashboardController">
+<BorderPane prefHeight="700.0" prefWidth="1000.0" styleClass="root" stylesheets="@notenmanagerTheme.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.wifi.notenmanager.controller.DashboardController">
 
     <!-- === Navigation / Toolbar === -->
     <top>
         <ToolBar fx:id="toolbar" styleClass="toolbar">
-            <Button onAction="#openStudentsView" text="Schüler" />
-            <Button onAction="#openSubjectView" text="Fächer" />
-            <Button onAction="#openGradesView" text="Noten" />
-            <Button onAction="#openBehaviorView" text="Verhalten" />
-            <Button onAction="#openNotesView" text="Notizen" />
-            <Button onAction="#openStatisticsView" text="Statistik" />
+            <Button onAction="#openStudentsView" text="Schüler">
+            <graphic>
+               <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@students.png" />
+                  </image>
+               </ImageView>
+            </graphic>
+            <tooltip>
+               <Tooltip text="Schülerverwaltung" />
+            </tooltip></Button>
+            <Button onAction="#openSubjectView" text="Fächer">
+            <graphic>
+                <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@subjects.png" />
+                  </image>
+               </ImageView>
+            </graphic></Button>
+            <Button onAction="#openGradesView" text="Noten">
+            <graphic>
+                <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@grades.png" />
+                  </image>
+               </ImageView>
+            </graphic></Button>
+            <Button onAction="#openBehaviorView" text="Verhalten">
+            <graphic>
+                <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@behavior.png" />
+                  </image>
+               </ImageView>
+            </graphic></Button>
+            <Button onAction="#openNotesView" text="Notizen">
+            <graphic>
+                <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@notes.png" />
+                  </image>
+               </ImageView>
+            </graphic></Button>
+            <Button onAction="#openStatisticsView" text="Statistik">
+            <graphic>
+                <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@statistics.png" />
+                  </image>
+               </ImageView>
+            </graphic></Button>
 
             <Region fx:id="spacer" HBox.hgrow="ALWAYS" />
-            <Button onAction="#handleLogout" styleClass="button logout-button" text="Logout" textFill="#c31e1e" />
+            <Button onAction="#handleLogout" styleClass="button logout-button" text="Logout" textFill="#c31e1e">
+            <graphic>
+                <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@logout.png" />
+                  </image>
+               </ImageView>
+            </graphic></Button>
         </ToolBar>
     </top>
 
@@ -24,5 +83,7 @@
     <center>
         <TabPane fx:id="tabPane" prefHeight="600.0" styleClass="tab-pane" tabClosingPolicy="SELECTED_TAB" />
     </center>
+   <bottom>
+   </bottom>
 
 </BorderPane>

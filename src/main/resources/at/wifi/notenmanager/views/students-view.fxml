@@ -4,95 +4,98 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<StackPane styleClass="root"
-           stylesheets="@notenmanagerTheme.css"
-           xmlns="http://javafx.com/javafx/17.0.12"
-           xmlns:fx="http://javafx.com/fxml/1"
-           fx:controller="at.wifi.notenmanager.controller.StudentsController">
+<StackPane styleClass="root" stylesheets="@notenmanagerTheme.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.wifi.notenmanager.controller.StudentsController">
 
-    <VBox alignment="CENTER" spacing="24" styleClass="card" maxWidth="1100">
+    <VBox alignment="CENTER" maxWidth="1100" spacing="24" styleClass="card">
 
         <!-- Titel -->
-        <Label text="Schülerverwaltung" styleClass="heading"/>
+        <Label styleClass="heading" text="Schülerverwaltung" />
 
         <!-- Formularbereich -->
-        <TitledPane expanded="true" text="Schüler bearbeiten / anlegen" styleClass="titled-pane">
+        <TitledPane expanded="true" styleClass="titled-pane" text="Schüler bearbeiten / anlegen">
             <content>
                 <GridPane hgap="20" vgap="16">
-                    <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+                    <padding><Insets bottom="20" left="20" right="20" top="20" /></padding>
                     <columnConstraints>
-                        <ColumnConstraints halignment="RIGHT" minWidth="140"/>
-                        <ColumnConstraints hgrow="ALWAYS"/>
-                        <ColumnConstraints halignment="RIGHT" minWidth="140"/>
-                        <ColumnConstraints hgrow="ALWAYS"/>
+                        <ColumnConstraints halignment="RIGHT" maxWidth="251.0" minWidth="95.0" prefWidth="190.0" />
+                        <ColumnConstraints hgrow="ALWAYS" maxWidth="252.0" minWidth="21.0" prefWidth="190.0" />
+                        <ColumnConstraints halignment="RIGHT" maxWidth="336.0" minWidth="78.0" prefWidth="117.0" />
+                        <ColumnConstraints hgrow="ALWAYS" maxWidth="562.0" minWidth="312.0" prefWidth="431.0" />
                     </columnConstraints>
 
                     <!-- Erste Spalte -->
-                    <Label text="Vorname:" styleClass="subheading" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-                    <TextField fx:id="firstNameField" styleClass="text-field" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                    <Label styleClass="subheading" text="Vorname:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                    <TextField fx:id="firstNameField" styleClass="text-field" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
-                    <Label text="Nachname:" styleClass="subheading" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-                    <TextField fx:id="lastNameField" styleClass="text-field" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                    <Label styleClass="subheading" text="Nachname:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                    <TextField fx:id="lastNameField" styleClass="text-field" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
-                    <Label text="Klasse (ID/Bezeichnung):" styleClass="subheading" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-                    <TextField fx:id="classIdField" promptText="z. B. 1A" styleClass="text-field" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                    <Label styleClass="subheading" text="Klasse (ID/Bezeichnung):" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                    <TextField fx:id="classIdField" promptText="z. B. 1A" styleClass="text-field" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
-                    <Label text="Geburtsdatum:" styleClass="subheading" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
-                    <DatePicker fx:id="dobPicker" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+                    <Label styleClass="subheading" text="Geburtsdatum:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                    <DatePicker fx:id="dobPicker" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
-                    <Label text="Tel.Nummer:" styleClass="subheading" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
-                    <TextField fx:id="phoneNumberField" styleClass="text-field" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+                    <Label styleClass="subheading" text="Tel.Nummer:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                    <TextField fx:id="phoneNumberField" styleClass="text-field" GridPane.columnIndex="1" GridPane.rowIndex="4" />
 
                     <!-- Zweite Spalte -->
-                    <Label text="Stärken:" styleClass="subheading" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
-                    <TextField fx:id="strengthsField" styleClass="text-field" GridPane.columnIndex="3" GridPane.rowIndex="0"/>
+                    <Label styleClass="subheading" text="Stärken:" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+                    <TextField fx:id="strengthsField" styleClass="text-field" GridPane.columnIndex="3" GridPane.rowIndex="0" />
 
-                    <Label text="Schwächen:" styleClass="subheading" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
-                    <TextField fx:id="weaknessesField" styleClass="text-field" GridPane.columnIndex="3" GridPane.rowIndex="1"/>
+                    <Label styleClass="subheading" text="Schwächen:" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                    <TextField fx:id="weaknessesField" styleClass="text-field" GridPane.columnIndex="3" GridPane.rowIndex="1" />
 
-                    <Label text="Gesundheit:" styleClass="subheading" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
-                    <TextField fx:id="healthInfoField" styleClass="text-field" GridPane.columnIndex="3" GridPane.rowIndex="2"/>
+                    <Label styleClass="subheading" text="Gesundheit:" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                    <TextField fx:id="healthInfoField" styleClass="text-field" GridPane.columnIndex="3" GridPane.rowIndex="2" />
 
-                    <Label text="Elternteil:" styleClass="subheading" GridPane.columnIndex="2" GridPane.rowIndex="3"/>
-                    <TextField fx:id="parentNameField" styleClass="text-field" GridPane.columnIndex="3" GridPane.rowIndex="3"/>
+                    <Label styleClass="subheading" text="Elternteil:" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                    <TextField fx:id="parentNameField" styleClass="text-field" GridPane.columnIndex="3" GridPane.rowIndex="3" />
 
                     <!-- Buttons -->
-                    <HBox alignment="CENTER_RIGHT" spacing="10" GridPane.columnIndex="3" GridPane.rowIndex="5">
-                        <Label fx:id="statusLabel" styleClass="subheading"/>
-                        <Pane HBox.hgrow="ALWAYS"/>
-                        <Button fx:id="saveButton" text="Speichern" onAction="#onSave" styleClass="button login-button"/>
-                        <Button fx:id="deleteButton" text="Löschen" onAction="#onDelete" styleClass="button logout-button"/>
-                        <Button fx:id="reloadButton" text="Aktualisieren" onAction="#onReload" styleClass="button"/>
+                    <HBox alignment="CENTER_RIGHT" prefHeight="27.0" prefWidth="586.0" spacing="10" GridPane.columnIndex="3" GridPane.rowIndex="5">
+                        <Button fx:id="saveButton" onAction="#onSave" styleClass="button login-button" text="Speichern" />
+                        <Button fx:id="deleteButton" onAction="#onDelete" styleClass="button logout-button" text="Löschen" />
+                        <Button fx:id="reloadButton" onAction="#onReload" styleClass="button" text="Aktualisieren" />
                     </HBox>
+                     <Label fx:id="statusLabel" prefHeight="25.0" prefWidth="519.0" styleClass="subheading" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+               <rowConstraints>
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+               </rowConstraints>
                 </GridPane>
             </content>
         </TitledPane>
 
         <!-- Info-Bereich -->
-        <TitledPane expanded="false" text="🛈 Was macht dieser Bereich?" maxWidth="950">
+        <TitledPane expanded="false" maxWidth="950" text="🛈 Was macht dieser Bereich?">
             <VBox spacing="6" styleClass="card">
-                <padding><Insets top="12" bottom="12" left="12" right="12"/></padding>
-                <Label text="In diesem Bereich verwalten Sie Schülerdaten..." wrapText="true"/>
-                <Label text="Alle Angaben sind optional und lokal gespeichert." wrapText="true"/>
+                <padding><Insets bottom="12" left="12" right="12" top="12" /></padding>
+                <Label text="In diesem Bereich verwalten Sie Schülerdaten..." wrapText="true" />
+                <Label text="Alle Angaben sind optional und lokal gespeichert." wrapText="true" />
             </VBox>
         </TitledPane>
 
         <!-- Tabelle -->
         <TableView fx:id="studentsTable" styleClass="table-view">
             <columns>
-                <TableColumn fx:id="idColumn" text="ID" prefWidth="60"/>
-                <TableColumn fx:id="firstNameColumn" text="Vorname" prefWidth="140"/>
-                <TableColumn fx:id="lastNameColumn" text="Nachname" prefWidth="140"/>
-                <TableColumn fx:id="classIdColumn" text="Klasse" prefWidth="100"/>
-                <TableColumn fx:id="dobColumn" text="Geburtsdatum" prefWidth="120"/>
-                <TableColumn fx:id="parentNameColumn" text="Elternteil" prefWidth="160"/>
-                <TableColumn fx:id="strengthsColumn" text="Stärken" prefWidth="160"/>
-                <TableColumn fx:id="weaknessesColumn" text="Schwächen" prefWidth="160"/>
-                <TableColumn fx:id="healthInfoColumn" text="Gesundheit" prefWidth="160"/>
-                <TableColumn fx:id="phoneNumberColumn" text="Tel.Nummer" prefWidth="160"/>
+                <TableColumn fx:id="idColumn" prefWidth="60" text="ID" />
+                <TableColumn fx:id="firstNameColumn" prefWidth="140" text="Vorname" />
+                <TableColumn fx:id="lastNameColumn" prefWidth="140" text="Nachname" />
+                <TableColumn fx:id="classIdColumn" prefWidth="100" text="Klasse" />
+                <TableColumn fx:id="dobColumn" prefWidth="120" text="Geburtsdatum" />
+                <TableColumn fx:id="parentNameColumn" prefWidth="160" text="Elternteil" />
+                <TableColumn fx:id="strengthsColumn" prefWidth="160" text="Stärken" />
+                <TableColumn fx:id="weaknessesColumn" prefWidth="160" text="Schwächen" />
+                <TableColumn fx:id="healthInfoColumn" prefWidth="160" text="Gesundheit" />
+                <TableColumn fx:id="phoneNumberColumn" prefWidth="160" text="Tel.Nummer" />
             </columns>
             <placeholder>
-                <Label text="Keine Schüler vorhanden."/>
+                <Label text="Keine Schüler vorhanden." />
             </placeholder>
         </TableView>
 

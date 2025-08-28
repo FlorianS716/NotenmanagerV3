@@ -19,7 +19,7 @@ public class StudentsController {
     public TableColumn<Students, Number> idColumn;
     public TableColumn<Students, String> lastNameColumn;
     public TableColumn<Students, String> firstNameColumn;
-    public TableColumn<Students, Number> classIdColumn;
+    public TableColumn<Students, String> classIdColumn;
     public TableColumn<Students, String> dobColumn;
     public TableColumn<Students, String> parentNameColumn;
     public TableColumn<Students, String > strengthsColumn;
@@ -36,6 +36,9 @@ public class StudentsController {
     public TextField healthInfoField;
     public TextField phoneNumberField;
     public Label statusLabel;
+    public Button saveButton;
+    public Button deleteButton;
+    public Button reloadButton;
 
     private final StudentsService studentsService = new StudentsServiceImpl();
     private Students selectedForEdit;
@@ -47,7 +50,7 @@ public class StudentsController {
         idColumn.setCellValueFactory(c -> new SimpleIntegerProperty(c.getValue().getId()));
         firstNameColumn.setCellValueFactory(c -> new SimpleStringProperty((c.getValue().getFirstName())));
         lastNameColumn.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getLastName()));
-        classIdColumn.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getClassId()).length());
+        classIdColumn.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getClassId()));
         dobColumn.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getDob()));
         parentNameColumn.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getParentName()));
         strengthsColumn.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getStrengths()));
@@ -58,12 +61,26 @@ public class StudentsController {
         refreshTable();
     }
 
+    private void fillFormFrom(Students s) {
+        if (s == null) return;
+
+        firstNameField.setText(s.getFirstName());
+        lastNameField.setText(s.getLastName());
+        classIdField.setText(s.getClassId());
+        parentNameField.setText(s.getParentName());
+        strengthsField.setText(s.getStrengths());
+        weaknessesField.setText(s.getWeaknesses());
+        healthInfoField.setText(s.getHealthInfo());
+        phoneNumberField.setText(s.getPhoneNumber());
+    }
+
+
 
     public void onSave(ActionEvent actionEvent) throws SQLException {
 
         String firstName = firstNameField.getText() != null ? firstNameField.getText().trim() : "";
-        String lastName = lastNameField.getText()  != null ? lastNameField.getText().trim()  : "";
-        String classId = classIdField.getText()   != null ? classIdField.getText().trim()   : "";
+        String lastName = lastNameField.getText() != null ? lastNameField.getText().trim() : "";
+        String classId = classIdField.getText() != null ? classIdField.getText().trim() : "";
         String parentName = parentNameField.getText();
         String strengths = strengthsField.getText();
         String weaknesses = weaknessesField.getText();
@@ -131,6 +148,15 @@ public class StudentsController {
     }
 
     public void onReload(ActionEvent actionEvent) {
+
+        Students student = studentsTable.getSelectionModel().getSelectedItem();
+        if (student == null){
+            setStatus("Bitte zuerst einen Schüler aus der Tabelle auswählen.");
+            return;
+        }
+        selectedForEdit = student;
+        fillFormFrom(student);
+        setStatus("Daten von: " + student.getFirstName() + " " + student.getLastName() + " bearbeiten....");
     }
 
     private void refreshTable() {
