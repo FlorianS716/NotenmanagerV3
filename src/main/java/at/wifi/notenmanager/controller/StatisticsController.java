@@ -26,8 +26,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -137,9 +137,9 @@ public class StatisticsController {
         try {
             List<Subject> subjects = subjectDAO.findAll();
 
-            // Ergebnisliste: Fach -> Endnote + (optional) Breakdown-Text
-            List<Map.Entry<String, Double>> subjectAverages = new java.util.ArrayList<>();
-            Map<String, String> subjectDetails = new java.util.HashMap<>();
+            // Ergebnisliste: Fach -> Endnote +  Breakdown-Text
+            List<Map.Entry<String, Double>> subjectAverages = new ArrayList<>();
+            Map<String, String> subjectDetails = new HashMap<>();
 
             for (Subject subject : subjects) {
                 List<Grades> grades = gradesDAO.getGradesByStudentAndSubject(student.getId(), subject.getId());
@@ -172,7 +172,7 @@ public class StatisticsController {
                     subjectAverages.add(Map.entry(subject.getName(), finalNote));
                     subjectDetails.put(subject.getName(), details.toString());
 
-                    // Optional: Textausgabe pro Fach unter dem Chart
+                    // Textausgabe pro Fach unter dem Chart
                     finalGradesBox.getChildren().add(new Label(details.toString()));
                 }
             }
@@ -185,20 +185,16 @@ public class StatisticsController {
             // Achsen
             CategoryAxis xAxis = new CategoryAxis();
             xAxis.setLabel("Fächer");
-            xAxis.setCategories(FXCollections.observableArrayList(
-                    subjectAverages.stream().map(Map.Entry::getKey).toList()
-            ));
 
-            NumberAxis yAxis = new NumberAxis(1, 5, 1);
-            yAxis.setLabel("Durchschnitt (1 = sehr gut)");
+            NumberAxis yAxis = new NumberAxis(5, 1, 5);
+            yAxis.setLabel("1 = sehr gut");
 
-            // Einfache, robuste Darstellung: ein BarChart, eine Serie
-            BarChart<String, Number> chart = new BarChart<>(xAxis, yAxis);
+
+            LineChart<String, Number> chart = new LineChart<>(xAxis, yAxis);
             chart.setTitle("Durchschnittsnoten nach Fach");
             chart.setLegendVisible(false);
             chart.setAnimated(false);
-            chart.setCategoryGap(12);
-            chart.setBarGap(4);
+            chart.setCreateSymbols(true); // Punkte an den Linien anzeigen
             chart.setPrefHeight(320);
 
             XYChart.Series<String, Number> series = new XYChart.Series<>();
@@ -208,33 +204,11 @@ public class StatisticsController {
             }
             chart.getData().add(series);
 
-            // Farben & Tooltips setzen (grün -> rot je nach Note)
-            chart.applyCss(); // Nodes sicherstellen
-            for (XYChart.Data<String, Number> d : series.getData()) {
-                double val = d.getYValue().doubleValue();
-                String color = colorForGrade(val);
-                if (d.getNode() != null) {
-                    d.getNode().setStyle("-fx-bar-fill: " + color + ";");
-                    String tipText = subjectDetails.getOrDefault(d.getXValue(),
-                            d.getXValue() + " – Durchschnitt: " + String.format("%.2f", val));
-                    Tooltip.install(d.getNode(), new Tooltip(tipText));
-                }
-            }
-
             chartsContainer.getChildren().add(chart);
 
         } catch (SQLException e) {
             showError("Fehler beim Berechnen der Gesamtnoten: " + e.getMessage());
         }
-    }
-
-    /** Grün (1.0) -> Rot (5.0) */
-    private String colorForGrade(double grade) {
-        double t = Math.min(1.0, Math.max(0.0, (grade - 1.0) / 4.0)); // 1..5 -> 0..1
-        int r = (int) Math.round(46 + (220 - 46) * t);
-        int g = (int) Math.round(160 + (53  - 160) * t);
-        int b = (int) Math.round(67 + (69  - 67) * t);
-        return "rgb(" + r + "," + g + "," + b + ")";
     }
 
 
