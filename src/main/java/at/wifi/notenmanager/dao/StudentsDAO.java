@@ -66,7 +66,7 @@ public class StudentsDAO {
         return students;
     }
     public void updateStudent(Students student) throws SQLException {
-        String sql = "UPDATE students SET class_id = ?, first_name = ?, last_name = ?, dob = ?, parent_name = ?, strengths = ?, weaknesses = ?, health_info = ? WHERE id = ?";
+        String sql = "UPDATE students SET class_id = ?, first_name = ?, last_name = ?, dob = ?, parent_name = ?, strengths = ?, weaknesses = ?, health_info = ?, phone_number = ? WHERE id = ?";
         try (Connection connection = Database.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, student.getClassId());
@@ -77,7 +77,8 @@ public class StudentsDAO {
             preparedStatement.setString(6, student.getStrengths());
             preparedStatement.setString(7, student.getWeaknesses());
             preparedStatement.setString(8, student.getHealthInfo());
-            preparedStatement.setInt(9, student.getId());
+            preparedStatement.setString(9,student.getPhoneNumber());
+            preparedStatement.setInt(10, student.getId());
             preparedStatement.executeUpdate();
         }
     }
