@@ -137,14 +137,16 @@ public class StatisticsController {
         try {
             List<Subject> subjects = subjectDAO.findAll();
 
+            // Ergebnisliste: Fach -> Endnote + (optional) Breakdown-Text
+            List<Map.Entry<String, Double>> subjectAverages = new java.util.ArrayList<>();
+            Map<String, String> subjectDetails = new java.util.HashMap<>();
+
             for (Subject subject : subjects) {
                 List<Grades> grades = gradesDAO.getGradesByStudentAndSubject(student.getId(), subject.getId());
                 List<GradingComponent> components = new GradingComponentServiceImpl().findBySubjectId(subject.getId());
+
                 double weightedSum = 0.0;
                 double totalWeight = 0.0;
-
-                //Beitrag je Komponente
-                Map<String, Double> contributions = new LinkedHashMap<>();
 
                 StringBuilder details = new StringBuilder(subject.getName()).append(": ");
 
@@ -157,50 +159,82 @@ public class StatisticsController {
                             .toList();
 
                     if (!matching.isEmpty()) {
-                        double avg = matching.stream().mapToInt(Grades::getRating).average().orElse(0);
-                        double contribution = avg * weight;
-                        weightedSum += contribution;
+                        double avg = matching.stream().mapToInt(Grades::getRating).average().orElse(0.0);
+                        weightedSum += avg * weight;
                         totalWeight += weight;
-                        contributions.put(type, contribution);
                         details.append(String.format("%.0f%% %s (⌀ %.2f), ", weight * 100, type, avg));
                     }
                 }
 
-                if (totalWeight == 0.0) continue;
+                if (totalWeight > 0.0) {
+                    double finalNote = weightedSum; // Gewichte sind 0..1 -> weightedSum ist bereits Endnote
+                    details.append(String.format("Gesamtnote: %.2f", finalNote));
+                    subjectAverages.add(Map.entry(subject.getName(), finalNote));
+                    subjectDetails.put(subject.getName(), details.toString());
 
-                double finalNote = weightedSum;
-                details.append(String.format("Gesamtnote: %.2f", finalNote));
-
-                Label label = new Label(details.toString());
-                finalGradesBox.getChildren().add(label);
-
-                // Diagramm
-                CategoryAxis xAxis = new CategoryAxis();
-                xAxis.setLabel("");
-
-                NumberAxis yAxis = new NumberAxis(1, 5, 1);
-                yAxis.setLabel("1 = Sehr gut");
-
-                StackedBarChart<String, Number> chart = new StackedBarChart<>(xAxis, yAxis);
-                chart.setTitle("Gesamtbeitrag der Komponenten – " + subject.getName());
-                chart.setLegendVisible(true);
-                chart.setAnimated(false);
-                chart.setCategoryGap(20);
-                chart.setPrefHeight(200);
-
-                //Für jeden Eintrag eine Serie mit genau einem Datenpunkt
-                contributions.forEach((String type, Double contrib) -> {
-                    XYChart.Series<String, Number> s = new XYChart.Series<>();
-                    s.setName(type);
-                    s.getData().add(new XYChart.Data<>(subject.getName(), contrib));
-                    chart.getData().add(s);
-                });
-                chartsContainer.getChildren().add(chart);
+                    // Optional: Textausgabe pro Fach unter dem Chart
+                    finalGradesBox.getChildren().add(new Label(details.toString()));
+                }
             }
+
+            if (subjectAverages.isEmpty()) return;
+
+            // Aufsteigend sortieren (besser = niedriger)
+            subjectAverages.sort(java.util.Comparator.comparingDouble(Map.Entry::getValue));
+
+            // Achsen
+            CategoryAxis xAxis = new CategoryAxis();
+            xAxis.setLabel("Fächer");
+            xAxis.setCategories(FXCollections.observableArrayList(
+                    subjectAverages.stream().map(Map.Entry::getKey).toList()
+            ));
+
+            NumberAxis yAxis = new NumberAxis(1, 5, 1);
+            yAxis.setLabel("Durchschnitt (1 = sehr gut)");
+
+            // Einfache, robuste Darstellung: ein BarChart, eine Serie
+            BarChart<String, Number> chart = new BarChart<>(xAxis, yAxis);
+            chart.setTitle("Durchschnittsnoten nach Fach");
+            chart.setLegendVisible(false);
+            chart.setAnimated(false);
+            chart.setCategoryGap(12);
+            chart.setBarGap(4);
+            chart.setPrefHeight(320);
+
+            XYChart.Series<String, Number> series = new XYChart.Series<>();
+            for (var e : subjectAverages) {
+                XYChart.Data<String, Number> d = new XYChart.Data<>(e.getKey(), e.getValue());
+                series.getData().add(d);
+            }
+            chart.getData().add(series);
+
+            // Farben & Tooltips setzen (grün -> rot je nach Note)
+            chart.applyCss(); // Nodes sicherstellen
+            for (XYChart.Data<String, Number> d : series.getData()) {
+                double val = d.getYValue().doubleValue();
+                String color = colorForGrade(val);
+                if (d.getNode() != null) {
+                    d.getNode().setStyle("-fx-bar-fill: " + color + ";");
+                    String tipText = subjectDetails.getOrDefault(d.getXValue(),
+                            d.getXValue() + " – Durchschnitt: " + String.format("%.2f", val));
+                    Tooltip.install(d.getNode(), new Tooltip(tipText));
+                }
+            }
+
+            chartsContainer.getChildren().add(chart);
 
         } catch (SQLException e) {
             showError("Fehler beim Berechnen der Gesamtnoten: " + e.getMessage());
         }
+    }
+
+    /** Grün (1.0) -> Rot (5.0) */
+    private String colorForGrade(double grade) {
+        double t = Math.min(1.0, Math.max(0.0, (grade - 1.0) / 4.0)); // 1..5 -> 0..1
+        int r = (int) Math.round(46 + (220 - 46) * t);
+        int g = (int) Math.round(160 + (53  - 160) * t);
+        int b = (int) Math.round(67 + (69  - 67) * t);
+        return "rgb(" + r + "," + g + "," + b + ")";
     }
 
 

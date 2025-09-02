@@ -95,7 +95,7 @@ public class GradesController {
         }
 
         double avg = gradesService.getAverageGradeByType(student.getId(), subject.getId());
-        avgLabel.setText(Float.isNaN((float) avg) ? "Durchschnitt: –" : String.format("Durchschnitt: %.2f", avg));
+        avgLabel.setText(Float.isNaN((float) avg) ? "Durchschnitt: –" : String.format("Durchschnitt (ohne Gewichtung): %.2f", avg));
 
     }
     private void refreshGrades() {
