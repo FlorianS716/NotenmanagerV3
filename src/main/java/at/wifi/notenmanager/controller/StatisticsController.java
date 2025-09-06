@@ -58,6 +58,8 @@ public class StatisticsController {
     private final ObservableList<Grades> gradesItems = FXCollections.observableArrayList();
     private final ObservableList<Behavior> behaviorItems = FXCollections.observableArrayList();
     private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE;
+    private record SubjectResult(String subjectName, double finalNote, String detailsText) {}
+
 
     @FXML
     public void initialize() throws SQLException {
@@ -135,75 +137,14 @@ public class StatisticsController {
         chartsContainer.getChildren().clear();
 
         try {
-            List<Subject> subjects = subjectDAO.findAll();
+            List<SubjectResult> results = computeFinalGrades(student);
+            if (results.isEmpty()) return;
 
-            // Ergebnisliste: Fach -> Endnote +  Breakdown-Text
-            List<Map.Entry<String, Double>> subjectAverages = new ArrayList<>();
-            Map<String, String> subjectDetails = new HashMap<>();
+            // 1) Text unter dem Chart
+            renderFinalGradesText(results);
 
-            for (Subject subject : subjects) {
-                List<Grades> grades = gradesDAO.getGradesByStudentAndSubject(student.getId(), subject.getId());
-                List<GradingComponent> components = new GradingComponentServiceImpl().findBySubjectId(subject.getId());
-
-                double weightedSum = 0.0;
-                double totalWeight = 0.0;
-
-                StringBuilder details = new StringBuilder(subject.getName()).append(": ");
-
-                for (GradingComponent component : components) {
-                    String type = component.getName();
-                    double weight = component.getWeight();
-
-                    var matching = grades.stream()
-                            .filter(g -> g.getType() != null && g.getType().equalsIgnoreCase(type))
-                            .toList();
-
-                    if (!matching.isEmpty()) {
-                        double avg = matching.stream().mapToInt(Grades::getRating).average().orElse(0.0);
-                        weightedSum += avg * weight;
-                        totalWeight += weight;
-                        details.append(String.format("%.0f%% %s (⌀ %.2f), ", weight * 100, type, avg));
-                    }
-                }
-
-                if (totalWeight > 0.0) {
-                    double finalNote = weightedSum; // Gewichte sind 0..1 -> weightedSum ist bereits Endnote
-                    details.append(String.format("Gesamtnote: %.2f", finalNote));
-                    subjectAverages.add(Map.entry(subject.getName(), finalNote));
-                    subjectDetails.put(subject.getName(), details.toString());
-
-                    // Textausgabe pro Fach unter dem Chart
-                    finalGradesBox.getChildren().add(new Label(details.toString()));
-                }
-            }
-
-            if (subjectAverages.isEmpty()) return;
-
-            // Aufsteigend sortieren (besser = niedriger)
-            subjectAverages.sort(java.util.Comparator.comparingDouble(Map.Entry::getValue));
-
-            // Achsen
-            CategoryAxis xAxis = new CategoryAxis();
-            xAxis.setLabel("Fächer");
-
-            NumberAxis yAxis = new NumberAxis(5, 1, 5);
-            yAxis.setLabel("1 = sehr gut");
-
-
-            LineChart<String, Number> chart = new LineChart<>(xAxis, yAxis);
-            chart.setTitle("Durchschnittsnoten nach Fach");
-            chart.setLegendVisible(false);
-            chart.setAnimated(false);
-            chart.setCreateSymbols(true); // Punkte an den Linien anzeigen
-            chart.setPrefHeight(320);
-
-            XYChart.Series<String, Number> series = new XYChart.Series<>();
-            for (var e : subjectAverages) {
-                XYChart.Data<String, Number> d = new XYChart.Data<>(e.getKey(), e.getValue());
-                series.getData().add(d);
-            }
-            chart.getData().add(series);
-
+            // 2) Chart bauen & anzeigen
+            LineChart<String, Number> chart = buildFinalGradesChart(results);
             chartsContainer.getChildren().add(chart);
 
         } catch (SQLException e) {
@@ -211,6 +152,78 @@ public class StatisticsController {
         }
     }
 
+    private List<SubjectResult> computeFinalGrades(Students student) throws SQLException {
+        List<Subject> subjects = subjectDAO.findAll();
+
+        List<SubjectResult> results = new ArrayList<>();
+
+        for (Subject subject : subjects) {
+            List<Grades> grades = gradesDAO.getGradesByStudentAndSubject(student.getId(), subject.getId());
+            List<GradingComponent> components = new GradingComponentServiceImpl().findBySubjectId(subject.getId());
+
+            double weightedSum = 0.0;
+            double totalWeight = 0.0;
+
+            StringBuilder details = new StringBuilder(subject.getName()).append(": ");
+
+            for (GradingComponent component : components) {
+                String type = component.getName();
+                double weight = component.getWeight(); // 0..1
+
+                var matching = grades.stream()
+                        .filter(g -> g.getType() != null && g.getType().equalsIgnoreCase(type))
+                        .toList();
+
+                if (!matching.isEmpty()) {
+                    double avg = matching.stream().mapToInt(Grades::getRating).average().orElse(0.0);
+                    weightedSum += avg * weight;
+                    totalWeight += weight;
+                    details.append(String.format("%.0f%% %s (⌀ %.2f), ", weight * 100, type, avg));
+                }
+            }
+
+            if (totalWeight > 0.0) {
+                double finalNote = weightedSum; // Gewichte 0..1 -> Summe ist Endnote
+                details.append(String.format("Gesamtnote: %.2f", finalNote));
+                results.add(new SubjectResult(subject.getName(), finalNote, details.toString()));
+            }
+        }
+
+        // Aufsteigend sortieren (besser = niedriger)
+        results.sort(java.util.Comparator.comparingDouble(SubjectResult::finalNote));
+        return results;
+    }
+
+    // Textzeilen unter dem Chart aufbauen
+    private void renderFinalGradesText(List<SubjectResult> results) {
+        finalGradesBox.getChildren().clear();
+        for (SubjectResult r : results) {
+            finalGradesBox.getChildren().add(new Label(r.detailsText()));
+        }
+    }
+
+    // Chart erstellen (nur UI, keine Berechnung)
+    private LineChart<String, Number> buildFinalGradesChart(List<SubjectResult> results) {
+        CategoryAxis xAxis = new CategoryAxis();
+        xAxis.setLabel("Fächer");
+        NumberAxis yAxis = new NumberAxis(5, 1, 5);
+        yAxis.setLabel("1 = sehr gut");
+
+        LineChart<String, Number> chart = new LineChart<>(xAxis, yAxis);
+        chart.setTitle("Durchschnittsnoten nach Fach");
+        chart.setLegendVisible(false);
+        chart.setAnimated(false);
+        chart.setCreateSymbols(true);
+        chart.setPrefHeight(320);
+
+        XYChart.Series<String, Number> series = new XYChart.Series<>();
+        for (SubjectResult r : results) {
+            series.getData().add(new XYChart.Data<>(r.subjectName(), r.finalNote()));
+        }
+        chart.getData().add(series);
+
+        return chart;
+    }
 
     @FXML
     private void exportToExcel() {
