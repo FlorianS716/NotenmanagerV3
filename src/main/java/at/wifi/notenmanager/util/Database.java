@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Database {
+    //Datenbank config
     private static final String DB_URL = "jdbc:sqlite:data/Notenmanager.db";
 
     public static Connection getConnection() throws SQLException {

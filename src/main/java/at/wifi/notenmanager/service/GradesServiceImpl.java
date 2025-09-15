@@ -40,8 +40,4 @@ public class GradesServiceImpl implements GradesService{
         return gradesDAO.getAverageGrade(studentId, subjectId);
     }
 
-    @Override
-    public List<Grades> getGradesByStudentAndSubject(int studentId, int subjectId) throws SQLException {
-        return gradesDAO.getGradesByStudentAndSubject(studentId, subjectId);
-    }
 }

@@ -106,20 +106,5 @@ public class BehaviorDAO {
 
         return list;
     }
-    public float getAverageRating(int studentId, int subjectId) throws SQLException {
-        String sql = "SELECT AVG(rating) FROM behavior WHERE student_id = ? AND subject_id = ?";
-        try (Connection conn = Database.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setInt(1, studentId);
-            stmt.setInt(2, subjectId);
-
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                return rs.getFloat(1);
-            }
-        }
-        return 0.0f;
-    }
 
 }

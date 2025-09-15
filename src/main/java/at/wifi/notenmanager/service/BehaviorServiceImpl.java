@@ -25,11 +25,6 @@ public class BehaviorServiceImpl implements BehaviorService{
     }
 
     @Override
-    public List<Behavior> getBehaviorByStudentId(int studentId) throws SQLException {
-        return behaviorDAO.getBehaviorByStudentId(studentId);
-    }
-
-    @Override
     public void updateBehavior(Behavior behavior) throws SQLException {
         behaviorDAO.updateBehavior(behavior);
     }
@@ -39,8 +34,4 @@ public class BehaviorServiceImpl implements BehaviorService{
         return behaviorDAO.getBehaviorByStudentAndSubject(studentId, subjectId);
     }
 
-    @Override
-    public double getAverageRating(int studentId, int subjectId) throws SQLException {
-        return behaviorDAO.getAverageRating(studentId, subjectId);
-    }
 }

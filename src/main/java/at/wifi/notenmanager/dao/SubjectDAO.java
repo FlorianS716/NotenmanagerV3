@@ -42,23 +42,6 @@ public class SubjectDAO {
             preparedStatement.executeUpdate();
         }
     }
-    public Subject findById(int id) throws SQLException {
-        String sql = "SELECT * FROM subject WHERE id = ?";
-        try (Connection conn = Database.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setInt(1, id);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                Subject subject = new Subject();
-                subject.setId(rs.getInt("id"));
-                subject.setName(rs.getString("name"));
-                subject.setTeacherId(rs.getInt("teacher_id"));
-                return subject;
-            }
-        }
-        return null;
-    }
     public List<Subject> findAll() throws SQLException {
         List<Subject> subjects = new ArrayList<>();
         String sql = "SELECT * FROM subject";

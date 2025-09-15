@@ -10,7 +10,6 @@ public interface SubjectService {
     void createSubject(Subject subject) throws SQLException;
     boolean deleteSubject(int id) throws SQLException;
     void updateSubject(Subject subject) throws SQLException;
-    Subject findById(int id) throws SQLException;
     List<Subject> findAll() throws SQLException;
 
 }

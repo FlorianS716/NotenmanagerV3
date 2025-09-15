@@ -12,6 +12,4 @@ public interface GradesService {
     List<Grades> getGradesByStudentId(int studentId) throws SQLException;
     void updateGrade(Grades grade) throws SQLException;
     double getAverageGradeByType(int studentId, int subjectId) throws SQLException;
-    List<Grades> getGradesByStudentAndSubject(int studentId, int subjectId) throws SQLException;
-
 }

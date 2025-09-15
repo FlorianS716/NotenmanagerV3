@@ -30,11 +30,6 @@ public class SubjectServiceImpl implements SubjectService{
     }
 
     @Override
-    public Subject findById(int id) throws SQLException {
-        return subjectDAO.findById(id);
-    }
-
-    @Override
     public List<Subject> findAll() throws SQLException {
         return subjectDAO.findAll();
     }

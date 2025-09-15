@@ -37,17 +37,4 @@ public class TeacherDAO {
         }
         return null;
     }
-    public int getTeacherIdByEmail(String email) throws SQLException {
-        String sql = "SELECT id FROM teacher WHERE email = ?";
-        try (Connection conn = Database.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, email);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                return rs.getInt("id");
-            } else {
-                throw new SQLException("Lehrer nicht gefunden mit E-Mail: " + email);
-            }
-        }
-    }
 }
